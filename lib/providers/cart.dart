@@ -23,22 +23,40 @@ class Cart with ChangeNotifier {
   int get itemCount {
     return _items.length;
   }
- 
-  double get totalAmount{
+
+  double get totalAmount {
     var total = 0.0;
     _items.forEach((key, cartItem) {
       total += cartItem.price * cartItem.quantity;
-     });
-     return total;
-
+    });
+    return total;
   }
-  
-  void removeItem(String prodId){
+
+  void removeItem(String prodId) {
     _items.remove(prodId);
     notifyListeners();
   }
 
-  void clear(){
+  void removeSingleItem(String productId) {
+    if (!_items.containsKey(productId)) {
+      return;
+    }
+    if (_items[productId]!.quantity > 1) {
+      _items.update(
+          productId,
+          (existingCartItem) => CartItem(
+              id: existingCartItem.id,
+              title: existingCartItem.title,
+              quantity: existingCartItem.quantity - 1,
+              price: existingCartItem.price));
+    }
+    else{
+      _items.remove(productId);
+    }
+    notifyListeners();
+  }
+
+  void clear() {
     _items = {};
     notifyListeners();
   }
@@ -52,7 +70,7 @@ class Cart with ChangeNotifier {
               title: existingCartItem.title,
               quantity: existingCartItem.quantity + 1,
               price: existingCartItem.price));
-            
+
       //change qty
     } else {
       _items.putIfAbsent(
@@ -64,6 +82,5 @@ class Cart with ChangeNotifier {
               quantity: 1));
     }
     notifyListeners();
-
   }
 }

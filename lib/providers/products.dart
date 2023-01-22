@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop/providers/product.dart';
+import '../providers/product.dart';
 
 class Products with ChangeNotifier {
-
-  List<Product> _items =[
-       Product(
+  List<Product> _items = [
+    Product(
       id: 'p1',
       title: 'Red Shirt',
       description: 'A red shirt - it is pretty red!',
@@ -36,17 +35,16 @@ class Products with ChangeNotifier {
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     ),
-    
   ];
 
- // var _showFavoritesOnly = false;
+  // var _showFavoritesOnly = false;
 
-  List<Product> get items{
+  List<Product> get items {
     return [..._items];
   }
 
   List<Product> get favoriteItems {
-    return _items.where((prodItem) => prodItem.isFavorite == true ).toList();
+    return _items.where((prodItem) => prodItem.isFavorite == true).toList();
   }
 
 //   void showFavoritesOnly(){
@@ -58,19 +56,40 @@ class Products with ChangeNotifier {
 //  void showAll(){
 //     _showFavoritesOnly = true;
 //     notifyListeners();
-    
+
 //   }
 
-
-  void addProduct(){
-    // _items.add(value);
+  void addProduct(Product product) {
+    final newProduct = Product(
+        id: DateTime.now().toString(),
+        title: product.title,
+        description: product.description,
+        imageUrl: product.imageUrl,
+        price: product.price);
+     _items.add(newProduct);
     notifyListeners();
   }
 
-  Product findById(String id){
-    return _items.firstWhere((prod) => prod.id == id );
+  void updateProduct(String id, Product newProduct){
+   final prodIndex = _items.indexWhere((prod) => prod.id == id);
+   if(prodIndex >=0){
+    _items[prodIndex] = newProduct;
+     notifyListeners();
+   }else{
+
+    // ...
+   }
+   
+  
+  }
+
+  void deleteProduct(String id){
+    _items.removeWhere((prod) => prod.id == id);
+    notifyListeners();
 
   }
 
-
+  Product findById(String id) {
+    return _items.firstWhere((prod) => prod.id == id);
+  }
 }

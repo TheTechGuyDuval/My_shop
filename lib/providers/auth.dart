@@ -79,7 +79,7 @@ class Auth with ChangeNotifier {
 
   Future<bool> tryAutoLogin() async {
     final prefs =  await SharedPreferences.getInstance();
-    print('fff');
+    
     if(!prefs.containsKey('userData')){
       return false;
     }

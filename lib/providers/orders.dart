@@ -9,6 +9,7 @@ class OrderItem {
   final List<CartItem> products;
   final DateTime dateTime;
 
+
   OrderItem(
       {required this.id,
       required this.amount,
@@ -17,19 +18,24 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
+  
   List<OrderItem> _orders = [];
+final String authToken;
+final String userId;
+  Orders(this.authToken,this._orders,this.userId);
+
 
   List<OrderItem> get orders {
     return [..._orders];
   }
 
   Future<void> fetchAndSetOrders() async {
-    Uri url =
-        Uri.https('my-shop-1c748-default-rtdb.firebaseio.com', '/orders.json');
+    final url = Uri.parse("https://my-shop-1c748-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken"
+        );
     final response = await http.get(url);
     List<OrderItem> _loadedOrderItems = [];
     final extractedResponseData =
-        jsonDecode(response.body) as Map<String, dynamic>;
+        jsonDecode(response.body) as  dynamic;
     if(extractedResponseData == null){
       return;
     }
@@ -46,8 +52,8 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
-    Uri url =
-        Uri.https('my-shop-1c748-default-rtdb.firebaseio.com', '/orders.json');
+   final url = Uri.parse("https://my-shop-1c748-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken"
+        );
     final timeStamp = DateTime.now();
     final response = await http.post(url,
         body: jsonEncode({

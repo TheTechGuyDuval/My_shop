@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop/helpers/custom_route.dart';
 import '../providers/auth.dart';
 import '../screens/auth_screen.dart';
 import '../screens/splash_screen.dart';
@@ -43,6 +44,12 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) => MaterialApp(
           title: 'My_Shop',
           theme: ThemeData(
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android : CustomPageTransitionBuilder() ,
+                TargetPlatform.iOS : CustomPageTransitionBuilder()
+              }
+            ),
               textTheme: TextTheme(
                   titleLarge: Theme.of(context)
                       .textTheme

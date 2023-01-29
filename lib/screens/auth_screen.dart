@@ -179,6 +179,9 @@ class _AuthCardState extends State<AuthCard>
       } else if (error.toString().contains('INVALID_PASSWORD')) {
         errorMessage = 'Invalid Password';
       }
+      setState(() {
+        _isLoading = false;
+      });
 
       _showErrorDialog(errorMessage);
     } catch (error) {
@@ -186,6 +189,9 @@ class _AuthCardState extends State<AuthCard>
           'Could not authenticate you.please check your network and try again later';
       _showErrorDialog(errorMessage);
     }
+     setState(() {
+        _isLoading = false;
+      });
   }
 
   void _switchAuthMode() {

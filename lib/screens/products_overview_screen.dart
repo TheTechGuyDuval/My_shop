@@ -44,9 +44,14 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
      setState(() {
        _isLoading = false;
      });
+      }).catchError((error){ 
+       setState(() {
+        _isLoading = false;
+        });
       });
 
     }
+    
     _isInit = false;
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();

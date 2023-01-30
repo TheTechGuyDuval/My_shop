@@ -48,6 +48,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
        setState(() {
         _isLoading = false;
         });
+        
       });
 
     }
